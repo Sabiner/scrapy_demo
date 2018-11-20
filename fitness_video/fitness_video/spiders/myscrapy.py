@@ -41,13 +41,9 @@ class MyScrapy(scrapy.Spider):
             video_item["title"] = video_element.xpath("text()").extract()[0]
             video_item["url"] = "https://www.hiyd.com" + video_element.xpath("@href").extract()[0]
 
-            yield scrapy.Request(video_item["url"], meta={"video_item": video_item}, callback=self.translate_url)
             item["videos"].append(video_item)
 
         self.logger.info(item)
         self.logger.info("[+] Finish detail parse!")
+        return item
 
-    def translate_url(self, response):
-        video_item = response.meta['video_item']
-        print response.xpath("//video[@id, 'jp_video_0']")
-        return video_item
